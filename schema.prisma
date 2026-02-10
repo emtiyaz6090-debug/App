@@ -1,0 +1,39 @@
+// schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String    @id @default(cuid())
+  phone        String    @unique
+  password     String
+  name         String?
+  activities   Activity[]
+  studyLogs    StudyLog[]
+  createdAt    DateTime  @default(now())
+}
+
+model Activity {
+  id        String   @id @default(cuid())
+  type      String   // WALKING, RUNNING, GYM, CYCLING
+  duration  Int      // minutes
+  steps     Int?
+  calories  Float
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model StudyLog {
+  id        String   @id @default(cuid())
+  duration  Int      // minutes
+  subject   String?
+  createdAt DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
