@@ -1,184 +1,119 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Activity, BookOpen, Flame, Footprints, Plus, Bell, User as UserIcon, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Clock, Droplets, PieChart, User, Plus, Bell, Moon } from 'lucide-react';
 
-export default function CleanDashboard() {
-  const [loading, setLoading] = useState(true);
-  const [steps, setSteps] = useState(6240);
-
-  // পেজ লোড অ্যানিমেশন
-  useEffect(() => {
-    setTimeout(() => setLoading(false), 800);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="h-screen w-full flex items-center justify-center bg-white">
-        <motion.div 
-          animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full"
-        />
-      </div>
-    );
-  }
+export default function PremiumDashboard() {
+  const [water, setWater] = useState(1000);
+  const goal = 1200;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#1E293B] font-sans pb-28">
+    <div className="min-h-screen bg-[#87CEFA] font-sans overflow-x-hidden pb-24">
       
-      {/* --- TOP BAR --- */}
-      <nav className="p-6 flex justify-between items-center bg-white/50 backdrop-blur-md sticky top-0 z-50">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
-            <Activity size={20} />
+      {/* --- TOP PROFILE SECTION --- */}
+      <div className="p-6 pt-10 flex flex-col items-center">
+        <div className="relative">
+          <motion.div 
+            initial={{ scale: 0 }} animate={{ scale: 1 }}
+            className="w-24 h-24 rounded-full border-4 border-[#C084FC] overflow-hidden bg-white shadow-xl"
+          >
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Emtiyaz" alt="Avatar" />
+          </motion.div>
+          <div className="absolute bottom-0 right-0 bg-blue-500 p-1.5 rounded-full border-2 border-white shadow-lg">
+            <Bell size={12} className="text-white" />
           </div>
-          <span className="font-bold text-lg tracking-tight">VigorMind</span>
         </div>
-        <div className="flex gap-3">
-          <button className="p-2 bg-white rounded-full shadow-sm border border-slate-100"><Bell size={20} /></button>
-          <button className="p-2 bg-white rounded-full shadow-sm border border-slate-100"><UserIcon size={20} /></button>
-        </div>
-      </nav>
+        <h2 className="mt-3 text-white text-2xl font-black">Emtiyaz 👋</h2>
+        <span className="bg-blue-600/30 text-white text-[10px] px-4 py-1 rounded-full font-bold backdrop-blur-md">Premium Member</span>
+      </div>
 
-      <main className="p-6">
-        {/* --- WELCOME SECTION --- */}
-        <motion.section 
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="mb-8"
-        >
-          <h2 className="text-3xl font-black text-slate-900">শুভ সকাল! ✨</h2>
-          <p className="text-slate-500 mt-1">আজ আপনার প্রোডাক্টিভিটি দারুণ পর্যায়ে আছে।</p>
-        </motion.section>
-
-        {/* --- MAIN CARD (STUDY TIME) --- */}
+      <main className="px-6 space-y-6">
+        
+        {/* --- SMART REMINDER CARD (The main blue card) --- */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2 }}
-          className="bg-indigo-600 p-8 rounded-[2.5rem] text-white shadow-2xl shadow-indigo-200 relative overflow-hidden mb-8"
+          initial={{ y: 50, opacity: 0 }} animate={{ y: 0, opacity: 1 }}
+          className="bg-white/90 backdrop-blur-xl rounded-[3rem] p-8 shadow-2xl relative border border-white/40"
         >
-          <div className="relative z-10">
-            <div className="flex justify-between items-center mb-6">
-              <span className="bg-white/20 px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase">Mind Focus</span>
-              <BookOpen size={20} className="opacity-60" />
-            </div>
-            <h3 className="text-4xl font-black mb-2">০২ঘ ৩০মি</h3>
-            <p className="text-indigo-100 text-sm opacity-80">আজকের পড়ার লক্ষ্য: ৮৫% পূর্ণ</p>
-            
-            <div className="mt-6 w-full bg-white/20 h-2.5 rounded-full">
-              <motion.div 
-                initial={{ width: 0 }}
-                animate={{ width: "85%" }}
-                transition={{ duration: 1, delay: 0.5 }}
-                className="h-full bg-white rounded-full shadow-[0_0_15px_white]"
-              />
-            </div>
-          </div>
-          {/* Decorative shapes */}
-          <div className="absolute top-[-20%] right-[-10%] w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
-        </motion.div>
-
-        {/* --- STATS GRID --- */}
-        <div className="grid grid-cols-2 gap-5">
-          <StatCard 
-            icon={<Footprints size={22} />} 
-            label="Steps" 
-            value={steps.toLocaleString()} 
-            unit="কদম" 
-            color="orange"
-            delay={0.3}
-          />
-          <StatCard 
-            icon={<Flame size={22} />} 
-            label="Burned" 
-            value="৪২০" 
-            unit="kcal" 
-            color="rose"
-            delay={0.4}
-          />
-        </div>
-
-        {/* --- RECENT ACTIVITY SECTION --- */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-10"
-        >
-          <div className="flex justify-between items-center mb-5">
-            <h4 className="font-bold text-lg">সাম্প্রতিক কাজ</h4>
-            <button className="text-indigo-600 text-sm font-bold flex items-center">সবগুলো <ChevronRight size={16}/></button>
-          </div>
+          <p className="text-[#3B82F6] font-black text-center text-sm tracking-widest uppercase mb-8">Smart Reminder</p>
           
-          <div className="space-y-4">
-            {['মর্নিং ওয়াক', 'গণিত প্র্যাকটিস', 'মেডিটেশন'].map((item, i) => (
-              <motion.div 
-                key={i}
-                whileHover={{ x: 10 }}
-                className="bg-white p-4 rounded-2xl flex items-center justify-between border border-slate-50 shadow-sm"
-              >
-                <div className="flex items-center gap-4">
-                  <div className="w-10 h-10 bg-slate-100 rounded-xl"></div>
-                  <span className="font-semibold text-slate-700">{item}</span>
-                </div>
-                <span className="text-slate-400 text-xs">সকাল ৮:৩০</span>
-              </motion.div>
-            ))}
+          <div className="relative flex justify-center items-center">
+            {/* Animated Mascot */}
+            <motion.div 
+              animate={{ y: [0, -10, 0] }} transition={{ repeat: Infinity, duration: 2 }}
+              className="absolute -top-12 -left-4 w-16 h-16"
+            >
+              <img src="https://cdn-icons-png.flaticon.com/512/3105/3105807.png" alt="water-drop" />
+              <div className="absolute left-12 top-0 bg-white p-2 rounded-2xl rounded-bl-none shadow-md border text-[8px] font-bold w-24">
+                let's hydrate some water!
+              </div>
+            </motion.div>
+
+            {/* Circular Progress */}
+            <div className="w-52 h-52 rounded-full border-[14px] border-blue-50 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-b from-transparent to-blue-50/50">
+               <span className="text-3xl font-black text-slate-700">{water}/{goal}ml</span>
+               <div className="flex flex-col items-center mt-2">
+                  <div className="w-8 h-10 border-2 border-blue-400 rounded-md relative flex items-end p-0.5 overflow-hidden">
+                    <motion.div 
+                      animate={{ height: `${(water/goal)*100}%` }}
+                      className="w-full bg-blue-400 rounded-sm"
+                    />
+                  </div>
+                  <span className="text-[10px] font-bold text-blue-400 mt-1">200 ml</span>
+               </div>
+            </div>
+          </div>
+
+          <motion.button 
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setWater(prev => Math.min(prev + 200, goal))}
+            className="mt-10 w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 rounded-2xl font-black shadow-lg shadow-blue-200"
+          >
+            Add 200ml
+          </motion.button>
+        </motion.div>
+
+        {/* --- SLEEP GOAL CARD --- */}
+        <motion.div 
+          initial={{ x: -100, opacity: 0 }} animate={{ x: 0, opacity: 1 }}
+          className="bg-[#A5B4FC]/40 backdrop-blur-lg p-6 rounded-[2.5rem] border border-white/20"
+        >
+          <p className="text-white text-[10px] font-black uppercase mb-4 opacity-80 tracking-widest">Sleep Goal</p>
+          <div className="bg-[#A5B4FC]/60 p-5 rounded-[2rem] flex items-center justify-between">
+            <div className="flex items-center gap-4 text-white">
+              <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center">
+                <Moon size={24} />
+              </div>
+              <div>
+                <p className="text-[10px] font-bold opacity-70 italic">Sleep Blast</p>
+                <h4 className="text-xl font-black">22:00 - 06:00</h4>
+              </div>
+            </div>
+            <div className="bg-rose-400 p-3 rounded-2xl shadow-lg shadow-rose-200/50 text-white">
+               <Bell size={20} />
+            </div>
           </div>
         </motion.div>
+
       </main>
 
-      {/* --- FLOATING ACTION BUTTON --- */}
-      <motion.button 
-        whileTap={{ scale: 0.9 }}
-        whileHover={{ rotate: 90 }}
-        onClick={() => setSteps(s => s + 500)}
-        className="fixed bottom-10 right-8 bg-slate-900 text-white w-16 h-16 rounded-2xl shadow-xl flex items-center justify-center z-50"
-      >
-        <Plus size={28} />
-      </motion.button>
-
-      {/* --- MINIMALIST NAV BAR --- */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white/70 backdrop-blur-2xl border-t border-slate-100 p-6 flex justify-around items-center z-40">
-        <NavIcon icon={<Activity size={24}/>} active />
-        <NavIcon icon={<BookOpen size={24}/>} />
-        <div className="w-10 h-10 rounded-full bg-slate-200 animate-pulse"></div>
+      {/* --- GLASS NAVIGATION BAR --- */}
+      <nav className="fixed bottom-6 left-6 right-6 h-20 bg-white/40 backdrop-blur-2xl rounded-[2.5rem] border border-white/30 shadow-2xl flex justify-around items-center px-4">
+        <NavIcon icon={<Clock size={24}/>} />
+        <NavIcon icon={<Droplets size={24}/>} active />
+        <div className="w-14 h-14 bg-gradient-to-tr from-cyan-300 to-blue-500 rounded-full flex items-center justify-center shadow-lg shadow-blue-300 border-4 border-white/50">
+           <Droplets className="text-white" size={28} />
+        </div>
+        <NavIcon icon={<PieChart size={24}/>} />
+        <NavIcon icon={<User size={24}/>} />
       </nav>
     </div>
   );
 }
 
-// Helper Components
-function StatCard({ icon, label, value, unit, color, delay }) {
-  const colors = {
-    orange: "bg-orange-50 text-orange-600 shadow-orange-100",
-    rose: "bg-rose-50 text-rose-600 shadow-rose-100"
-  };
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay }}
-      className="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-sm"
-    >
-      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-4 ${colors[color]}`}>
-        {icon}
-      </div>
-      <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{label}</p>
-      <div className="flex items-baseline gap-1">
-        <span className="text-2xl font-black">{value}</span>
-        <span className="text-[10px] font-bold text-slate-400">{unit}</span>
-      </div>
-    </motion.div>
-  );
-}
-
 function NavIcon({ icon, active = false }) {
   return (
-    <motion.div whileTap={{ y: -5 }} className={active ? "text-indigo-600" : "text-slate-300"}>
+    <div className={`p-2 transition-all ${active ? "text-blue-500 scale-110" : "text-white opacity-60"}`}>
       {icon}
-    </motion.div>
+    </div>
   );
-            }
+}
